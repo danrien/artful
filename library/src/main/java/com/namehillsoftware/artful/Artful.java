@@ -135,7 +135,9 @@ public class Artful {
 	}
 
 	private static <T> T mapDataFromCursorToClass(Cursor cursor, Class<T> cls) {
-		final ClassReflections reflections = ClassCache.getReflections(cls);
+		final T primitiveObject = tryMappingToPrimitive(cursor, cls);
+		if (primitiveObject != null)
+			return primitiveObject;
 
 		final T newObject;
 		try {
@@ -146,6 +148,7 @@ public class Artful {
 			throw new RuntimeException(e);
 		}
 
+		final ClassReflections reflections = ClassCache.getReflections(cls);
 		for (int i = 0; i < cursor.getColumnCount(); i++) {
 			String colName = cursor.getColumnName(i).toLowerCase(Locale.ROOT);
 
@@ -162,6 +165,22 @@ public class Artful {
 		}
 
 		return newObject;
+	}
+
+	private static <T> T tryMappingToPrimitive(Cursor cursor, Class<T> cls) {
+		if (Boolean.class.equals(cls)) return (T)new Boolean(cursor.getString(0));
+
+		if (Short.class.equals(cls)) return (T)new Short(cursor.getString(0));
+
+		if (Integer.class.equals(cls)) return (T)new Integer(cursor.getString(0));
+
+		if (Long.class.equals(cls)) return (T)new Long(cursor.getString(0));
+
+		if (Float.class.equals(cls)) return (T)new Float(cursor.getString(0));
+
+		if (Double.class.equals(cls)) return (T)new Double(cursor.getString(0));
+
+		return null;
 	}
 
 	public long execute() throws SQLException {
