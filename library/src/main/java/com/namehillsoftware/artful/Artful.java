@@ -168,17 +168,17 @@ public class Artful {
 	}
 
 	private static <T> T tryMappingToPrimitive(Cursor cursor, Class<T> cls) {
-		if (Boolean.class.equals(cls)) return (T)new Boolean(cursor.getString(0));
+		if (Boolean.class.equals(cls)) return (T)Boolean.valueOf(cursor.getString(0));
 
-		if (Short.class.equals(cls)) return (T)new Short(cursor.getString(0));
+		if (Short.class.equals(cls)) return (T)Short.valueOf(cursor.getString(0));
 
-		if (Integer.class.equals(cls)) return (T)new Integer(cursor.getString(0));
+		if (Integer.class.equals(cls)) return (T)Integer.valueOf(cursor.getString(0));
 
-		if (Long.class.equals(cls)) return (T)new Long(cursor.getString(0));
+		if (Long.class.equals(cls)) return (T)Long.valueOf(cursor.getString(0));
 
-		if (Float.class.equals(cls)) return (T)new Float(cursor.getString(0));
+		if (Float.class.equals(cls)) return (T)Float.valueOf(cursor.getString(0));
 
-		if (Double.class.equals(cls)) return (T)new Double(cursor.getString(0));
+		if (Double.class.equals(cls)) return (T)Double.valueOf(cursor.getString(0));
 
 		return null;
 	}
